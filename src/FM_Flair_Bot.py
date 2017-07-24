@@ -27,7 +27,13 @@ print('Logged in as:', Config_1.username)
 def send_flair_reminder():
     c.execute('INSERT INTO Submissions_Commented_On VALUES (?)', (submission.id,))
     conn.commit()
-    submission.reply('Please remember to flair your post.').mod.distinguish()
+    comment_text='Please flair your post by replying to this comment with SETFLAIR followed by a space and one of the following flair options:  \n'
+    comment_text+='  \n'
+    for template in subreddit.flair.link_templates:
+        comment_text+= '* '+str(template['text'])+'  \n'
+    comment_text+='  \n'
+    comment_text+='***You have X minutes to reply to this comment with SETFLAIR followed by one of the above options before your post is automatically removed.***'
+    submission.reply(comment_text).mod.distinguish()
     print('Sent flair reminder.')
 
 
@@ -57,6 +63,16 @@ def check_age():
         submission.mod.remove()
         print('Removed an old post.')
 
+def check_comments():
+    all_comments = submission.comments.list()  # stores all comments posted on submission in all_comments
+    for comment in all_comments:
+        if "SETFLAIR" in comment.body and comment.author is submission.author:
+            flair = comment.body[9:]
+            flair=flair.upper()
+            submission.mod.flair(text=flair, css_class='')
+            comment.mod.remove()  # if user flairs the post within 15 minutes, bot deletes previous comment
+            parent = comment.parent()
+            parent.mod.remove()  # and users flair reply
 
 def check_flair():
     print('Checking Flair...')
@@ -67,14 +83,7 @@ def check_flair():
     elif submission.link_flair_text in flair_list:
         remove_comment()
     elif submission.link_flair_text not in flair_list:
-        all_comments = submission.comments.list()  # stores all comments posted on submission in all_comments
-        for comment in all_comments:
-            if "SETFLAIR" in comment.body and comment.author is submission.author:
-                flair = comment.body[9:]
-                submission.mod.flair(text=flair, css_class='')
-                comment.mod.remove()  # if user flairs the post within 15 minutes, bot deletes previous comment
-                parent=comment.parent()
-                parent.mod.remove()  # and users flair reply
+        check_comments()
         check_age()
 
 
