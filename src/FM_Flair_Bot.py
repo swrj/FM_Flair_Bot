@@ -1,17 +1,18 @@
 import praw
 import time
 import sqlite3
-import Config_1
+import Config
 from prawcore.exceptions import PrawcoreException
 
 reddit = praw.Reddit(
-    client_id=Config_1.client_id,
-    client_secret=Config_1.client_secret,
-    user_agent=Config_1.user_agent,
-    username=Config_1.username,
-    password=Config_1.password)
+    client_id=Config.client_id,
+    client_secret=Config.client_secret,
+    user_agent=Config.user_agent,
+    username=Config.username,
+    password=Config.password)
 
-
+LIMIT = 10  # Number of posts to iterate through in subreddit/new. The more frequent the submissions are in your 
+# subreddit, the higher the number should be. 10 is more than enough for subreddits under ~50k
 TIME_LIMIT = 120  # Number of seconds after which post should be removed if not flaired.
 SUBREDDIT = reddit.subreddit('fmgtestsub')  # Enter subreddit here.
 COMMENT_FOOTNOTE = '''\n\n---^^I ^^am ^^a ^^bot. ^^I ^^was ^^created ^^by 
@@ -38,7 +39,7 @@ c.execute('CREATE TABLE IF NOT EXISTS Submissions_To_Ignore(Submission_ID)')  # 
 conn.commit()  # Saves changes to database
 
 print('Opened database successfully.')
-print('Logged in as:', Config_1.username)
+print('Logged in as:', Config.username)
 
 
 def check_comments():
@@ -105,7 +106,7 @@ def check_flair():
 while True:
     time.sleep(2)
     print('Searching...')
-    for submission in SUBREDDIT.new(limit=10):  # enter number of submissions to iterate through
+    for submission in SUBREDDIT.new(limit=LIMIT):  # enter number of submissions to iterate through
                                                 # 10-15 is fine for submissions with a couple of posts every hour
                                                 # ~50 for large subreddits (>100k subscribers)
         c.execute('SELECT Submission_ID FROM Submissions_Commented_On')  # returns submission ID's of posts commented on
