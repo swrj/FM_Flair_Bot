@@ -14,7 +14,7 @@ This bot is written in Python and makes use of [PRAW](https://praw.readthedocs.i
 * *However,* if the user fails to change the flair him/herself or fails to instruct the bot to set a flair (implemented by the user replying to the bots comment with the words "SETFLAIR" followed by the flair text) then the post is removed and the bot posts a comment informing the user about the removal. 
 * The bot also checks if a post has been flaired incorrectly and automatically removes such posts. (for example, the post is flaired as HELP when there is a specific thread that exists already for asking help)
 
-***How can I use this for my own specific subreddit***
+***How can I use this for my own specific subreddit?***
 * Clone this repository by typing `git clone https://www.github.com/swrj/FM_Flair_Bot`
 * Open FM_Flair_Bot.py in a text editor and change all the variables in upper case to the specifications of your bot.
 * Open Config.py and add the username and password of your bot. Go to https://www.reddit.com/prefs/apps while logged in to your bot account and click on the "Create an app" button. Name your bot, choose the script option and change the redirect uri to http://localhost:8080 and create the app. On the next page you will see the values for client_id and client_secret. Add these to the config file. Add a description for your user agent. This should be descriptive and should adhere to the official Reddit API rules found [**here**](https://github.com/reddit/reddit/wiki/API).
