@@ -15,7 +15,14 @@ This bot is written in Python and makes use of [PRAW](https://praw.readthedocs.i
 * The bot also checks if a post has been flaired incorrectly and automatically removes such posts. (for example, the post is flaired as HELP when there is a specific thread that exists already for asking help)
 
 ***How can I use this for my own specific subreddit?***
+* Install Python if you haven't already from [here](https://www.python.org/downloads/)
 * Clone this repository by typing `git clone https://www.github.com/swrj/FM_Flair_Bot`
 * Open FM_Flair_Bot.py in a text editor and change all the variables in upper case to the specifications of your bot.
 * Open Config.py and add the username and password of your bot. Go to https://www.reddit.com/prefs/apps while logged in to your bot account and click on the "Create an app" button. Name your bot, choose the script option and change the redirect uri to http://localhost:8080 and create the app. On the next page you will see the values for client_id and client_secret. Add these to the config file. Add a description for your user agent. This should be descriptive and should adhere to the official Reddit API rules found [**here**](https://github.com/reddit/reddit/wiki/API).
-* Run your script! Remember, your bot account ***needs*** to be a moderator to flair/remove submissions.
+* Run your script! 
+If you are on Windows, open command prompt and run the script like this:  
+`C:\Python27\python.exe C:\Users\Username\Downloads\FM_Flair_Bot\src\FM_Flair_Bot.py`  
+If you are on MacOS or a Linux distro then run the script like this:   
+`cd \home\user\FM_Flair_Bot\src\`  
+`python FM_Flair_Bot.py`  
+Remember, your bot account ***needs*** to be a moderator to flair/remove submissions.
